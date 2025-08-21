@@ -1,14 +1,21 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Eye, EyeOff, Mail, Lock, Sparkles } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Eye, EyeOff, Mail, Lock, Sparkles, AlertCircle } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 
 const Login = () => {
+  const navigate = useNavigate()
+  const { login, error, clearError } = useAuth()
   const [formData, setFormData] = useState({
     email: '',
     password: ''
   })
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    clearError()
+  }, [clearError])
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
@@ -22,11 +29,12 @@ const Login = () => {
     e.preventDefault()
     setIsLoading(true)
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      // Handle login logic here
-    }, 2000)
+    const result = await login(formData.email, formData.password)
+    setIsLoading(false)
+    
+    if (result.success) {
+      navigate('/dashboard')
+    }
   }
 
   return (
@@ -46,6 +54,12 @@ const Login = () => {
 
         {/* Login Form */}
         <div className="card">
+          {error && (
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center space-x-2">
+              <AlertCircle className="w-5 h-5 text-red-400" />
+              <span className="text-red-400 text-sm">{error}</span>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email */}
             <div>

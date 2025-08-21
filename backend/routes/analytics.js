@@ -1,16 +1,7 @@
 const express = require('express');
 const Content = require('../models/Content');
+const authMiddleware = require('../middleware/auth');
 const router = express.Router();
-
-// Middleware to extract user ID from token (simplified)
-const authMiddleware = (req, res, next) => {
-  const userId = req.headers['user-id'] || req.query.userId;
-  if (!userId) {
-    return res.status(401).json({ message: 'Authentication required' });
-  }
-  req.userId = userId;
-  next();
-};
 
 // Get analytics overview
 router.get('/overview', authMiddleware, async (req, res) => {

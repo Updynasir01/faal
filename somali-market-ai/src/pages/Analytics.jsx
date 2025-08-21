@@ -9,7 +9,14 @@ import {
   MessageCircle, 
   Share2,
   Calendar,
-  Filter
+  Filter,
+  Instagram,
+  Facebook,
+  Twitter,
+  Youtube,
+  Target,
+  Zap,
+  Download
 } from 'lucide-react'
 
 const Analytics = () => {
@@ -84,10 +91,38 @@ const Analytics = () => {
   ]
 
   const platformStats = [
-    { platform: 'Instagram', followers: 12500, engagement: 4.2, posts: 45 },
-    { platform: 'Facebook', followers: 8900, engagement: 3.8, posts: 32 },
-    { platform: 'TikTok', followers: 6700, engagement: 5.1, posts: 28 },
-    { platform: 'YouTube', followers: 3400, engagement: 2.9, posts: 15 }
+    { 
+      platform: 'Instagram', 
+      followers: 12500, 
+      engagement: 4.2, 
+      posts: 45,
+      icon: <Instagram className="w-5 h-5 text-pink-400" />,
+      color: 'text-pink-400'
+    },
+    { 
+      platform: 'Facebook', 
+      followers: 8900, 
+      engagement: 3.8, 
+      posts: 32,
+      icon: <Facebook className="w-5 h-5 text-blue-400" />,
+      color: 'text-blue-400'
+    },
+    { 
+      platform: 'TikTok', 
+      followers: 6700, 
+      engagement: 5.1, 
+      posts: 28,
+      icon: <div className="w-5 h-5 bg-black text-white rounded text-xs flex items-center justify-center font-bold">T</div>,
+      color: 'text-black'
+    },
+    { 
+      platform: 'YouTube', 
+      followers: 3400, 
+      engagement: 2.9, 
+      posts: 15,
+      icon: <Youtube className="w-5 h-5 text-red-400" />,
+      color: 'text-red-400'
+    }
   ]
 
   return (
@@ -119,7 +154,7 @@ const Analytics = () => {
         {/* Metrics Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {metrics.map((metric, index) => (
-            <div key={index} className="card">
+            <div key={index} className="card group hover:scale-105 transition-transform duration-300">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm">{metric.title}</p>
@@ -135,7 +170,7 @@ const Analytics = () => {
                     </span>
                   </div>
                 </div>
-                <div className={`${metric.color} p-3 bg-gray-800/50 rounded-lg`}>
+                <div className={`${metric.color} p-3 bg-gray-800/50 rounded-lg group-hover:scale-110 transition-transform duration-300`}>
                   {metric.icon}
                 </div>
               </div>
@@ -173,9 +208,14 @@ const Analytics = () => {
             <h3 className="text-lg font-semibold text-white mb-4">Platform Performance</h3>
             <div className="space-y-4">
               {platformStats.map((platform, index) => (
-                <div key={index} className="p-4 bg-gray-800/30 rounded-lg">
+                <div key={index} className="p-4 bg-gray-800/30 rounded-lg hover:bg-gray-700/30 transition-colors group">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-white font-medium">{platform.platform}</span>
+                    <div className="flex items-center space-x-3">
+                      <div className={`${platform.color}`}>
+                        {platform.icon}
+                      </div>
+                      <span className="text-white font-medium">{platform.platform}</span>
+                    </div>
                     <span className="text-gray-400 text-sm">{platform.followers.toLocaleString()} followers</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">

@@ -8,8 +8,11 @@ import {
   Instagram, 
   Twitter, 
   Youtube,
-  Loader2
+  Loader2,
+  AlertCircle,
+  CheckCircle
 } from 'lucide-react'
+import { contentAPI } from '../services/api'
 
 const ContentGenerator = () => {
   const [formData, setFormData] = useState({
@@ -25,6 +28,8 @@ const ContentGenerator = () => {
 
   const [generatedContent, setGeneratedContent] = useState(null)
   const [isGenerating, setIsGenerating] = useState(false)
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   const businessTypes = [
     'Coffee Shop',
@@ -80,26 +85,24 @@ const ContentGenerator = () => {
 
   const generateContent = async () => {
     setIsGenerating(true)
+    setError('')
+    setSuccess('')
     
-    // Simulate API call
-    setTimeout(() => {
-      const mockContent = {
-        text: `Waxaan ku soo bandhignay ${formData.businessType.toLowerCase()} cusub oo aad ka heli doontaan ${formData.industry.toLowerCase()} ahaan. ${formData.description}
-
-#${formData.businessType.replace(/\s+/g, '')} #${formData.industry.replace(/\s+/g, '')} #SomaliBusiness #Mogadishu #Somalia`,
-        hashtags: ['#SomaliBusiness', '#Mogadishu', '#Somalia', `#${formData.businessType.replace(/\s+/g, '')}`, `#${formData.industry.replace(/\s+/g, '')}`],
-        platform: formData.platform,
-        estimatedEngagement: Math.floor(Math.random() * 500) + 100
-      }
-      
-      setGeneratedContent(mockContent)
+    try {
+      const response = await contentAPI.generate(formData)
+      setGeneratedContent(response.data.content)
+      setSuccess('Content generated successfully!')
+    } catch (error) {
+      setError(error.response?.data?.message || 'Failed to generate content')
+    } finally {
       setIsGenerating(false)
-    }, 2000)
+    }
   }
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text)
-    // You could add a toast notification here
+    setSuccess('Copied to clipboard!')
+    setTimeout(() => setSuccess(''), 2000)
   }
 
   return (
@@ -110,6 +113,20 @@ const ContentGenerator = () => {
           <h1 className="text-3xl font-bold text-white mb-2">AI Content Generator</h1>
           <p className="text-gray-400">Create culturally relevant content for Somali audiences</p>
         </div>
+
+        {error && (
+          <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center space-x-2">
+            <AlertCircle className="w-5 h-5 text-red-400" />
+            <span className="text-red-400 text-sm">{error}</span>
+          </div>
+        )}
+
+        {success && (
+          <div className="mb-6 p-4 bg-green-500/10 border border-green-500/20 rounded-lg flex items-center space-x-2">
+            <CheckCircle className="w-5 h-5 text-green-400" />
+            <span className="text-green-400 text-sm">{success}</span>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Form Section */}

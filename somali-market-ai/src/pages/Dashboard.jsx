@@ -12,7 +12,12 @@ import {
   Calendar,
   FileText,
   Settings,
-  Bell
+  Bell,
+  Instagram,
+  Facebook,
+  Twitter,
+  Youtube,
+  TrendingDown
 } from 'lucide-react'
 
 const Dashboard = () => {
@@ -24,28 +29,67 @@ const Dashboard = () => {
       value: '1,247',
       change: '+12%',
       icon: <FileText className="w-6 h-6" />,
-      color: 'text-blue-400'
+      color: 'text-blue-400',
+      trend: 'up'
     },
     {
       title: 'Total Reach',
       value: '45.2K',
       change: '+8%',
       icon: <Eye className="w-6 h-6" />,
-      color: 'text-green-400'
+      color: 'text-green-400',
+      trend: 'up'
     },
     {
       title: 'Engagement Rate',
       value: '4.8%',
       change: '+2.1%',
       icon: <Heart className="w-6 h-6" />,
-      color: 'text-purple-400'
+      color: 'text-purple-400',
+      trend: 'up'
     },
     {
       title: 'New Followers',
       value: '892',
       change: '+15%',
       icon: <Users className="w-6 h-6" />,
-      color: 'text-orange-400'
+      color: 'text-orange-400',
+      trend: 'up'
+    }
+  ]
+
+  const platformStats = [
+    {
+      platform: 'Instagram',
+      followers: 12500,
+      engagement: 4.2,
+      posts: 45,
+      color: 'text-pink-400',
+      icon: <Instagram className="w-5 h-5" />
+    },
+    {
+      platform: 'Facebook',
+      followers: 8900,
+      engagement: 3.8,
+      posts: 32,
+      color: 'text-blue-400',
+      icon: <Facebook className="w-5 h-5" />
+    },
+    {
+      platform: 'TikTok',
+      followers: 6700,
+      engagement: 5.1,
+      posts: 28,
+      color: 'text-black',
+      icon: <div className="w-5 h-5 bg-black text-white rounded text-xs flex items-center justify-center font-bold">T</div>
+    },
+    {
+      platform: 'YouTube',
+      followers: 3400,
+      engagement: 2.9,
+      posts: 15,
+      color: 'text-red-400',
+      icon: <Youtube className="w-5 h-5" />
     }
   ]
 
@@ -117,14 +161,21 @@ const Dashboard = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {stats.map((stat, index) => (
-            <div key={index} className="card">
+            <div key={index} className="card group hover:scale-105 transition-transform duration-300">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-gray-400 text-sm">{stat.title}</p>
                   <p className="text-2xl font-bold text-white mt-1">{stat.value}</p>
-                  <p className="text-green-400 text-sm mt-1">{stat.change} from last month</p>
+                  <div className="flex items-center mt-1">
+                    {stat.trend === 'up' ? (
+                      <TrendingUp className="w-4 h-4 text-green-400 mr-1" />
+                    ) : (
+                      <TrendingDown className="w-4 h-4 text-red-400 mr-1" />
+                    )}
+                    <p className="text-green-400 text-sm">{stat.change} from last month</p>
+                  </div>
                 </div>
-                <div className={`${stat.color} p-3 bg-gray-800/50 rounded-lg`}>
+                <div className={`${stat.color} p-3 bg-gray-800/50 rounded-lg group-hover:scale-110 transition-transform duration-300`}>
                   {stat.icon}
                 </div>
               </div>
@@ -173,6 +224,30 @@ const Dashboard = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Platform Performance */}
+            <div className="card">
+              <h3 className="text-lg font-semibold text-white mb-4">Platform Performance</h3>
+              <div className="space-y-3">
+                {platformStats.map((platform, index) => (
+                  <div key={index} className="p-3 bg-gray-800/30 rounded-lg hover:bg-gray-700/30 transition-colors">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="flex items-center space-x-3">
+                        <div className={`${platform.color}`}>
+                          {platform.icon}
+                        </div>
+                        <span className="text-white font-medium">{platform.platform}</span>
+                      </div>
+                      <span className="text-gray-400 text-sm">{platform.followers.toLocaleString()}</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-400">{platform.engagement}% engagement</span>
+                      <span className="text-gray-400">{platform.posts} posts</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* Quick Actions */}
             <div className="card">
               <h3 className="text-lg font-semibold text-white mb-4">Quick Actions</h3>

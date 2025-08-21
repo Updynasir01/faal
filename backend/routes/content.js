@@ -1,18 +1,7 @@
 const express = require('express');
 const Content = require('../models/Content');
+const authMiddleware = require('../middleware/auth');
 const router = express.Router();
-
-// Middleware to extract user ID from token (simplified)
-const authMiddleware = (req, res, next) => {
-  // In a real app, you'd verify JWT token here
-  // For now, we'll use a header or query param
-  const userId = req.headers['user-id'] || req.query.userId;
-  if (!userId) {
-    return res.status(401).json({ message: 'Authentication required' });
-  }
-  req.userId = userId;
-  next();
-};
 
 // Generate content
 router.post('/generate', authMiddleware, async (req, res) => {

@@ -1,10 +1,13 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { Menu, X, Sparkles, BarChart3, FileText, User, LogIn } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Menu, X, Sparkles, BarChart3, FileText, User, LogIn, LogOut } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
+  const navigate = useNavigate()
+  const { user, isAuthenticated, logout } = useAuth()
 
   const navItems = [
     { name: 'About', path: '/about' },
@@ -17,6 +20,11 @@ const Navbar = () => {
   ]
 
   const isActive = (path) => location.pathname === path
+
+  const handleLogout = () => {
+    logout()
+    navigate('/')
+  }
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
@@ -49,12 +57,35 @@ const Navbar = () => {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <Link to="/login" className="btn-secondary text-sm">
-              Contact us
-            </Link>
-            <Link to="/register" className="btn-primary text-sm">
-              Get it now
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard" className="text-gray-300 hover:text-white text-sm">
+                  Dashboard
+                </Link>
+                <Link to="/content-generator" className="text-gray-300 hover:text-white text-sm">
+                  Generate
+                </Link>
+                <Link to="/analytics" className="text-gray-300 hover:text-white text-sm">
+                  Analytics
+                </Link>
+                <Link to="/profile" className="text-gray-300 hover:text-white text-sm">
+                  Profile
+                </Link>
+                <button onClick={handleLogout} className="btn-secondary text-sm">
+                  <LogOut className="w-4 h-4 mr-1" />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="btn-secondary text-sm">
+                  Sign In
+                </Link>
+                <Link to="/register" className="btn-primary text-sm">
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -87,20 +118,64 @@ const Navbar = () => {
                 </Link>
               ))}
               <div className="pt-4 space-y-2">
-                <Link
-                  to="/login"
-                  className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Contact us
-                </Link>
-                <Link
-                  to="/register"
-                  className="block px-3 py-2 text-sm font-medium bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  Get it now
-                </Link>
+                {isAuthenticated ? (
+                  <>
+                    <Link
+                      to="/dashboard"
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Dashboard
+                    </Link>
+                    <Link
+                      to="/content-generator"
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Generate Content
+                    </Link>
+                    <Link
+                      to="/analytics"
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Analytics
+                    </Link>
+                    <Link
+                      to="/profile"
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout()
+                        setIsMenuOpen(false)
+                      }}
+                      className="block w-full text-left px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md"
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Link
+                      to="/login"
+                      className="block px-3 py-2 text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 rounded-md"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      to="/register"
+                      className="block px-3 py-2 text-sm font-medium bg-gradient-to-r from-blue-600 to-blue-700 text-white rounded-md"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Get Started
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

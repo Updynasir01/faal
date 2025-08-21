@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Sparkles, BarChart3, FileText, Users, Zap, Target, Globe, Shield } from 'lucide-react'
+import { Sparkles, BarChart3, FileText, Users, Zap, Target, Globe, Shield, TrendingUp, Heart, MessageCircle, Share2, Instagram, Facebook, Twitter, Youtube, Eye, Calendar } from 'lucide-react'
 
 const Home = () => {
   const features = [
@@ -34,6 +34,58 @@ const Home = () => {
       description: 'Enterprise-grade security to protect your business data and content'
     }
   ]
+
+  const samplePosts = [
+    {
+      id: 1,
+      platform: 'Instagram',
+      content: 'Waxaan ku soo bandhignay shaah cusub oo aad ka heli doontaan qahwa ahaan. Ka soo qaad maanta! ☕️ #SomaliCoffee #Mogadishu #Somalia',
+      engagement: 1247,
+      reach: 8900,
+      likes: 892,
+      comments: 156,
+      shares: 89,
+      time: '2 hours ago',
+      image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=300&fit=crop'
+    },
+    {
+      id: 2,
+      platform: 'Facebook',
+      content: 'Maanta waxaan ku soo bandhignay cunto cusub oo aad ka heli doontaan restaurant ahaan. Ka hel discount 20%! 🍽️ #SomaliFood #Mogadishu',
+      engagement: 892,
+      reach: 5600,
+      likes: 634,
+      comments: 98,
+      shares: 45,
+      time: '5 hours ago',
+      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=400&h=300&fit=crop'
+    },
+    {
+      id: 3,
+      platform: 'TikTok',
+      content: 'Video cusub oo ku saabsan fashion cusub! 👗 #SomaliFashion #Style #Trending',
+      engagement: 2156,
+      reach: 12400,
+      likes: 1892,
+      comments: 234,
+      shares: 167,
+      time: '1 day ago',
+      image: 'https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&h=300&fit=crop'
+    }
+  ]
+
+  const analyticsData = {
+    totalFollowers: '45.2K',
+    totalEngagement: '12.8K',
+    avgEngagementRate: '4.8%',
+    monthlyGrowth: '+15.3%',
+    topPerformingPost: {
+      platform: 'Instagram',
+      engagement: 1247,
+      reach: 8900,
+      content: 'Waxaan ku soo bandhignay shaah cusub...'
+    }
+  }
 
   const teamMembers = [
     {
@@ -92,6 +144,35 @@ const Home = () => {
               Learn More
             </Link>
           </div>
+
+          {/* Live Analytics Preview */}
+          <div className="mt-12 max-w-4xl mx-auto">
+            <div className="card">
+              <div className="text-center mb-6">
+                <h3 className="text-2xl font-bold text-white mb-2">Live Performance Preview</h3>
+                <p className="text-gray-400">See how our AI-generated content performs</p>
+              </div>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-400 mb-1">{analyticsData.totalFollowers}</div>
+                  <div className="text-sm text-gray-400">Total Followers</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-400 mb-1">{analyticsData.totalEngagement}</div>
+                  <div className="text-sm text-gray-400">Total Engagement</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-purple-400 mb-1">{analyticsData.avgEngagementRate}</div>
+                  <div className="text-sm text-gray-400">Avg. Engagement Rate</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-orange-400 mb-1">{analyticsData.monthlyGrowth}</div>
+                  <div className="text-sm text-gray-400">Monthly Growth</div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Background Elements */}
@@ -128,6 +209,212 @@ const Home = () => {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Sample Generated Posts Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              AI-Generated Content That{' '}
+              <span className="gradient-text">Engages</span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              See real examples of culturally relevant content created by our AI
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {samplePosts.map((post) => (
+              <div key={post.id} className="card group hover:scale-105 transition-transform duration-300">
+                {/* Platform Header */}
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center space-x-2">
+                    {post.platform === 'Instagram' && <Instagram className="w-5 h-5 text-pink-400" />}
+                    {post.platform === 'Facebook' && <Facebook className="w-5 h-5 text-blue-400" />}
+                    {post.platform === 'TikTok' && <div className="w-5 h-5 bg-black text-white rounded text-xs flex items-center justify-center font-bold">T</div>}
+                    <span className="text-white font-medium">{post.platform}</span>
+                  </div>
+                  <span className="text-gray-400 text-sm">{post.time}</span>
+                </div>
+
+                {/* Post Image */}
+                <div className="relative mb-4 rounded-lg overflow-hidden">
+                  <img 
+                    src={post.image} 
+                    alt="Post content" 
+                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                </div>
+
+                {/* Post Content */}
+                <p className="text-gray-300 text-sm mb-4 leading-relaxed">
+                  {post.content}
+                </p>
+
+                {/* Engagement Stats */}
+                <div className="grid grid-cols-4 gap-2 text-center">
+                  <div className="bg-gray-800/30 rounded-lg p-2">
+                    <div className="flex items-center justify-center space-x-1 text-green-400 mb-1">
+                      <Heart className="w-3 h-3" />
+                      <span className="text-xs font-medium">{post.likes}</span>
+                    </div>
+                    <span className="text-xs text-gray-400">Likes</span>
+                  </div>
+                  <div className="bg-gray-800/30 rounded-lg p-2">
+                    <div className="flex items-center justify-center space-x-1 text-blue-400 mb-1">
+                      <MessageCircle className="w-3 h-3" />
+                      <span className="text-xs font-medium">{post.comments}</span>
+                    </div>
+                    <span className="text-xs text-gray-400">Comments</span>
+                  </div>
+                  <div className="bg-gray-800/30 rounded-lg p-2">
+                    <div className="flex items-center justify-center space-x-1 text-purple-400 mb-1">
+                      <Share2 className="w-3 h-3" />
+                      <span className="text-xs font-medium">{post.shares}</span>
+                    </div>
+                    <span className="text-xs text-gray-400">Shares</span>
+                  </div>
+                  <div className="bg-gray-800/30 rounded-lg p-2">
+                    <div className="flex items-center justify-center space-x-1 text-orange-400 mb-1">
+                      <Eye className="w-3 h-3" />
+                      <span className="text-xs font-medium">{post.reach}</span>
+                    </div>
+                    <span className="text-xs text-gray-400">Reach</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+        </div>
+      </section>
+
+      {/* Analytics Dashboard Preview */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Powerful{' '}
+              <span className="gradient-text">Analytics Dashboard</span>
+            </h2>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              Track your performance with detailed insights and actionable recommendations
+            </p>
+          </div>
+
+          <div className="card">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Analytics Overview */}
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-6">Performance Overview</h3>
+                
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                        <TrendingUp className="w-5 h-5 text-blue-400" />
+                      </div>
+                      <div>
+                        <p className="text-white font-medium">Total Reach</p>
+                        <p className="text-gray-400 text-sm">Last 30 days</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-white">89.2K</p>
+                      <p className="text-green-400 text-sm">+12.5%</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
+                        <Heart className="w-5 h-5 text-green-400" />
+                      </div>
+                      <div>
+                        <p className="text-white font-medium">Engagement Rate</p>
+                        <p className="text-gray-400 text-sm">Average</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-white">4.8%</p>
+                      <p className="text-green-400 text-sm">+2.1%</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                        <Users className="w-5 h-5 text-purple-400" />
+                      </div>
+                      <div>
+                        <p className="text-white font-medium">New Followers</p>
+                        <p className="text-gray-400 text-sm">This month</p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-2xl font-bold text-white">1,247</p>
+                      <p className="text-green-400 text-sm">+15.3%</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Platform Performance */}
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-6">Platform Performance</h3>
+                
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Instagram className="w-5 h-5 text-pink-400" />
+                      <span className="text-white font-medium">Instagram</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-medium">12.5K followers</p>
+                      <p className="text-green-400 text-sm">4.2% engagement</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Facebook className="w-5 h-5 text-blue-400" />
+                      <span className="text-white font-medium">Facebook</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-medium">8.9K followers</p>
+                      <p className="text-green-400 text-sm">3.8% engagement</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <div className="w-5 h-5 bg-black text-white rounded text-xs flex items-center justify-center font-bold">T</div>
+                      <span className="text-white font-medium">TikTok</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-medium">6.7K followers</p>
+                      <p className="text-green-400 text-sm">5.1% engagement</p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between p-4 bg-gray-800/30 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Youtube className="w-5 h-5 text-red-400" />
+                      <span className="text-white font-medium">YouTube</span>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-white font-medium">3.4K subscribers</p>
+                      <p className="text-green-400 text-sm">2.9% engagement</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -178,6 +465,23 @@ const Home = () => {
             <p className="text-xl text-gray-300 mb-8">
               Join hundreds of Somali businesses already growing with our AI-powered platform
             </p>
+            
+            {/* Social Proof */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-400 mb-2">500+</div>
+                <div className="text-gray-400">Active Businesses</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-green-400 mb-2">2.5M+</div>
+                <div className="text-gray-400">Posts Generated</div>
+              </div>
+              <div className="text-center">
+                <div className="text-3xl font-bold text-purple-400 mb-2">98%</div>
+                <div className="text-gray-400">Satisfaction Rate</div>
+              </div>
+            </div>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/register" className="btn-primary text-lg px-8 py-4">
                 Get Started Free

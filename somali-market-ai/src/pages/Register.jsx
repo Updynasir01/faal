@@ -1,8 +1,11 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { Eye, EyeOff, Mail, Lock, User, Building, Sparkles } from 'lucide-react'
+import { useState, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { Eye, EyeOff, Mail, Lock, User, Building, Sparkles, AlertCircle } from 'lucide-react'
+import { useAuth } from '../contexts/AuthContext'
 
 const Register = () => {
+  const navigate = useNavigate()
+  const { register, error, clearError } = useAuth()
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -16,6 +19,11 @@ const Register = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [validationError, setValidationError] = useState('')
+
+  useEffect(() => {
+    clearError()
+  }, [clearError])
 
   const businessTypes = [
     'Coffee Shop',
@@ -46,17 +54,37 @@ const Register = () => {
       ...prev,
       [name]: value
     }))
+    setValidationError('')
+  }
+
+  const validateForm = () => {
+    if (formData.password !== formData.confirmPassword) {
+      setValidationError('Passwords do not match')
+      return false
+    }
+    if (formData.password.length < 6) {
+      setValidationError('Password must be at least 6 characters long')
+      return false
+    }
+    return true
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    if (!validateForm()) {
+      return
+    }
+    
     setIsLoading(true)
     
-    // Simulate API call
-    setTimeout(() => {
-      setIsLoading(false)
-      // Handle registration logic here
-    }, 2000)
+    const { confirmPassword, ...registrationData } = formData
+    const result = await register(registrationData)
+    setIsLoading(false)
+    
+    if (result.success) {
+      navigate('/dashboard')
+    }
   }
 
   return (
@@ -76,6 +104,12 @@ const Register = () => {
 
         {/* Registration Form */}
         <div className="card">
+          {(error || validationError) && (
+            <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-center space-x-2">
+              <AlertCircle className="w-5 h-5 text-red-400" />
+              <span className="text-red-400 text-sm">{error || validationError}</span>
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Name Fields */}
             <div className="grid grid-cols-2 gap-4">
